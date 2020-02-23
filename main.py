@@ -1,7 +1,7 @@
 import json
 
 from csms import CSMS
-from miniserver import miniServer, miniRequestHandler
+from tinyserver import miniServer, miniRequestHandler
 
 csms = CSMS()
 
