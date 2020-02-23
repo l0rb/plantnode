@@ -34,6 +34,17 @@ class Point(Base):
     type_id = Column(Integer, ForeignKey('types.id'))
 
     plant = relationship("Plant", back_populates="points")
+    mm_type = relationship("MMType", back_populates="points")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'value': self.value,
+            'time': self.time.isoformat(),
+            'plant': self.plant.name,
+            'type': self.mm_type.name,
+        }
 
 Plant.points = relationship("Point", back_populates="plant")
+MMType.points = relationship("Point", back_populates="mm_type")
 

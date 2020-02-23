@@ -1,3 +1,4 @@
+import socket
 import json
 
 from csms import CSMS
@@ -9,7 +10,8 @@ def do_data():
     from db import DBConnection
     from schema import Point
     conn = DBConnection()
-    return json.dumps({conn.session.query(Point).all()})
+    return json.dumps([pt.to_dict() for pt in conn.session.query(Point).all()])
+
 
 class csmsRequestHandler(miniRequestHandler):
     def message(self):
@@ -19,4 +21,8 @@ class csmsRequestHandler(miniRequestHandler):
             'relative': csms.relative
         })
 
-miniServer(request_handler=csmsRequestHandler)
+class csmsServer(miniServer):
+    address_family = socket.AF_INET6
+
+csmsServer(request_handler=csmsRequestHandler, ip="::")
+

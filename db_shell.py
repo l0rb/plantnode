@@ -26,7 +26,7 @@ if args.action in create_plant_actions:
     print(f'{args.name} created')
 
 if args.action == 'create_mm':
-    conn.make_mm_type(name)
+    conn.make_mm_type(args.name)
     print(f'{args.name} created')
 
 if args.action == 'list':
