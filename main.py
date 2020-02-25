@@ -14,6 +14,8 @@ def do_data():
 
 
 class csmsRequestHandler(miniRequestHandler):
+    _content_type = 'application/json'
+
     def message(self):
         if self.path == '/data':
             return do_data()
