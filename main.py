@@ -10,7 +10,7 @@ def do_data():
     from db import DBConnection
     from schema import Point
     conn = DBConnection()
-    return json.dumps([pt.to_dict() for pt in conn.session.query(Point).all()])
+    return json.dumps([pt.to_dict(names=False) for pt in conn.session.query(Point).all()])
 
 
 class csmsRequestHandler(miniRequestHandler):

@@ -36,13 +36,19 @@ class Point(Base):
     plant = relationship("Plant", back_populates="points")
     mm_type = relationship("MMType", back_populates="points")
 
-    def to_dict(self):
+    def to_dict(self, names=True):
+        if names:
+            plant = self.plant.name
+            type_ = self.mm_type.name
+        else:
+            plant = self.plant.id
+            type_ = self.mm_type.id
         return {
             'id': self.id,
             'value': self.value,
             'time': self.time.isoformat(),
-            'plant': self.plant.name,
-            'type': self.mm_type.name,
+            'plant': plant,
+            'type': type_,
         }
 
 Plant.points = relationship("Point", back_populates="plant")
