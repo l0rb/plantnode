@@ -15,6 +15,7 @@ def do_data():
 def do_meta():
     from db import DBConnection
     from schema import Plant, MMType
+    conn = DBConnection()
     return json.dumps({
         'plants': [{'id':plant.id, 'name':plant.name} for plant in conn.session.query(Plant).all()],
         'types': [{'id':type_.id, 'name':type_.name} for type_ in conn.session.query(MMType).all()],
