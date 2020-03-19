@@ -1,1 +1,2 @@
 tinyserver
+adafruit-circuitpython-ads1x15
