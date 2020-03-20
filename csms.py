@@ -68,9 +68,9 @@ class CSMS():
 
 if __name__ == '__main__':
     csms = CSMS()
-    print("Voltage A1", csms.voltage)
-    print("Relative A1", csms.relative)
+    print("Voltage A0", csms.voltage)
+    print("Relative A0", csms.relative)
 
-    print("Voltage A3", csms.channels[3].voltage)
-    print("Relative A3", csms.relative3)
+    print("Voltage A1", csms.channels[1].voltage)
+    print("Relative A1", csms.relative1)
 
