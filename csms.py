@@ -26,7 +26,7 @@ class CSMS():
         """
         self.i2c = busio.I2C(board.SCL, board.SDA)
         self.ads = ADS.ADS1115(self.i2c)
-        self.channels = list():
+        self.channels = list()
         for ads_px in [ADS.P0, ADS.P1, ADS.P2, ADS.P3]:
             self.channels.append(AnalogIn(self.ads, ads_px))
         self.v_max = v_max
@@ -35,11 +35,11 @@ class CSMS():
 
     @property
     def voltage(self):
-        return self.channel[0].voltage
+        return self.channels[0].voltage
 
     @property
     def value(self):
-        return self.channel[0].value
+        return self.channels[0].value
 
     @property
     def relative(self):
