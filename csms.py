@@ -15,7 +15,8 @@ class CSMS():
 
             The highest v_max I have seen so far was ~2.7859 physically
             suspending the cable in air on a dry winter day, right
-            after bathing it for the v_min
+            after bathing it for the v_min.
+            Another sensor yielded ~2.83 right out the package lying on the ground.
 
             v_min has been obtained by submerging the sensor in a
             glass of water. had to "soak" for about 3 minutes
@@ -41,12 +42,35 @@ class CSMS():
     def value(self):
         return self.channels[0].value
 
+    def _relative(self, channel):
+        return 1 - (self.channels[channel].voltage - self.v_min ) / self.v_range
+
     @property
     def relative(self):
-        return 1 - (self.voltage - self.v_min ) / self.v_range
+        return self._relative(0)
+    
+    @property
+    def relative0(self):
+        return self._relative(0)
+    
+    @property
+    def relative1(self):
+        return self._relative(1)
+
+    @property
+    def relative2(self):
+        return self._relative(2)
+    
+    @property
+    def relative3(self):
+        return self._relative(3)
 
 
 if __name__ == '__main__':
     csms = CSMS()
-    print("Voltage", csms.voltage)
-    print("Relative", csms.relative)
+    print("Voltage A1", csms.voltage)
+    print("Relative A1", csms.relative)
+
+    print("Voltage A3", csms.channels[3].voltage)
+    print("Relative A3", csms.relative3)
+
