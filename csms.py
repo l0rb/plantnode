@@ -42,8 +42,12 @@ class CSMS():
     def value(self):
         return self.channels[0].value
 
-    def _relative(self, channel):
-        return 1 - (self.channels[channel].voltage - self.v_min ) / self.v_range
+    def _relative(self, channel, v_min=None, v_range=None):
+        if v_min is None:
+            v_min = self.v_min
+        if v_range is None:
+            v_range = self.v_range
+        return 1 - (self.channels[channel].voltage - v_min ) / v_range
 
     @property
     def relative(self):
@@ -55,7 +59,9 @@ class CSMS():
     
     @property
     def relative1(self):
-        return self._relative(1)
+        v_min = 1.23
+        v_max = 2.83
+        return self._relative(1, v_min, v_max-v_min)
 
     @property
     def relative2(self):
