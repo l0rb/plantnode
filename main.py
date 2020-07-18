@@ -1,13 +1,16 @@
 import socket
 import json
+import urllib
+import datetime
 
 from tinyserver import miniServer, miniRequestHandler
 
-def do_data():
+def do_data(start):
     from db import DBConnection
     from schema import Point
     conn = DBConnection()
-    return json.dumps([pt.to_dict(names=False) for pt in conn.session.query(Point).all()])
+    query = conn.session.query(Point).filter(Point.time>datetime.datetime.fromtimestamp(start)).all()
+    return json.dumps([pt.to_dict(names=False) for pt in query])
 
 def do_meta():
     from db import DBConnection
@@ -26,14 +29,34 @@ def do_humid():
         {'plant_id': 2, 'relative': csms.relative1}
     ])
 
+def do_info(pp, rh):
+    from db import DBConnection
+    from schema import Point
+    conn = DBConnection()
+    return json.dumps({
+        'status': 'ok',
+        'path': pp.path,
+        'query': urllib.parse.parse_qs(pp.query),
+        'rline': rh.requestline,
+    });
+
+
 class csmsRequestHandler(miniRequestHandler):
     _content_type = 'application/json'
 
     def message(self):
-        if self.path == '/data':
-            return do_data()
-        if self.path == '/meta':
+        parsed_path = urllib.parse.urlparse(self.path)
+        path = parsed_path.path
+        query = urllib.parse.parse_qs(parsed_path.query)
+        if path == '/data':
+            start = 0
+            if 'start' in query:
+                start = int(query['start'])
+            return do_data(start)
+        if path == '/meta':
             return do_meta()
+        if path == '/info':
+            return do_info(parsed_path, self)
         return do_humid()
 
 class csmsServer(miniServer):
