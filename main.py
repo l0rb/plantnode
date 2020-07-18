@@ -51,7 +51,7 @@ class csmsRequestHandler(miniRequestHandler):
         if path == '/data':
             start = 0
             if 'start' in query:
-                start = int(query['start'])
+                start = int(query['start'][0])
             return do_data(start)
         if path == '/meta':
             return do_meta()
